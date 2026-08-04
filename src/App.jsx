@@ -29,17 +29,22 @@ const Navbar = () => {
 };
 
 const Landing = () => {
+  const handleGetStarted = () => {
+    // Navigate to products page
+    window.location.href = '/products';
+  };
+
   return (
-    <div className="landing">
-      <h1>🌿 Welcome to Paradise Nursery</h1>
+    <div className="landing background-image">
+      <h1>Welcome to Paradise Nursery</h1>
       <p>Bring Nature Indoors</p>
       <p className="subtitle">
         Discover our curated collection of house plants that will transform your
         living space into a green paradise.
       </p>
-      <Link to="/products" className="btn-primary">
-        🌱 Shop Now
-      </Link>
+      <button className="btn-primary" onClick={handleGetStarted}>
+        Get Started
+      </button>
     </div>
   );
 };
