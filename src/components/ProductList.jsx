@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../features/CartSlice';
 import './ProductList.css';
 
-// Sample plant data
+// Sample plant data - 6 plants per category
 const plantsData = {
   aromatic: [
     {
@@ -36,6 +36,22 @@ const plantsData = {
       description: 'A fast-growing tree with distinctive aromatic leaves used in essential oils.',
       price: 34.99,
       image: '/images/eucalyptus.jpg',
+      category: 'Aromatic'
+    },
+    {
+      id: 9,
+      name: 'Basil',
+      description: 'A popular aromatic herb used in cooking with a sweet, peppery flavor.',
+      price: 16.99,
+      image: '/images/basil.jpg',
+      category: 'Aromatic'
+    },
+    {
+      id: 10,
+      name: 'Thyme',
+      description: 'A fragrant herb with small leaves, used in Mediterranean cuisine and teas.',
+      price: 18.99,
+      image: '/images/thyme.jpg',
       category: 'Aromatic'
     }
   ],
@@ -71,6 +87,22 @@ const plantsData = {
       price: 27.99,
       image: '/images/neem.jpg',
       category: 'Medicinal'
+    },
+    {
+      id: 11,
+      name: 'Chamomile',
+      description: 'A daisy-like plant known for its calming effects and use in herbal teas.',
+      price: 21.99,
+      image: '/images/chamomile.jpg',
+      category: 'Medicinal'
+    },
+    {
+      id: 12,
+      name: 'Echinacea',
+      description: 'A flowering plant used to boost the immune system and fight infections.',
+      price: 25.99,
+      image: '/images/echinacea.jpg',
+      category: 'Medicinal'
     }
   ]
 };
@@ -104,8 +136,9 @@ const ProductCard = ({ plant }) => {
         <p className="product-description">{plant.description}</p>
         <div className="product-price">${plant.price.toFixed(2)}</div>
         <button 
-          className={`btn-add-to-cart ${isInCart ? 'in-cart' : ''}`}
+          className={`btn-add-to-cart ${isInCart ? 'in-cart disabled' : ''}`}
           onClick={handleAddToCart}
+          disabled={isInCart}
         >
           {isInCart ? '✓ In Cart' : '🛒 Add to Cart'}
         </button>
