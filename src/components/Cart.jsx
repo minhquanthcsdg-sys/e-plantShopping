@@ -11,7 +11,13 @@ import './Cart.css';
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-  const total = item.price * item.quantity;
+
+  // Function to calculate total cost for each item
+  const calculateTotalCost = (item) => {
+    return item.price * item.quantity;
+  };
+
+  const total = calculateTotalCost(item);
 
   return (
     <div className="cart-item">
@@ -29,14 +35,25 @@ const CartItem = ({ item }) => {
       </div>
       <div className="cart-item-controls">
         <div className="quantity-control">
-          <button onClick={() => dispatch(decreaseQuantity(item.id))}>−</button>
+          <button 
+            onClick={() => dispatch(decreaseQuantity(item.id))}
+            aria-label="Decrease quantity"
+          >
+            −
+          </button>
           <span>{item.quantity}</span>
-          <button onClick={() => dispatch(increaseQuantity(item.id))}>+</button>
+          <button 
+            onClick={() => dispatch(increaseQuantity(item.id))}
+            aria-label="Increase quantity"
+          >
+            +
+          </button>
         </div>
         <div className="cart-item-total">${total.toFixed(2)}</div>
         <button 
           className="btn-danger"
           onClick={() => dispatch(removeItem(item.id))}
+          aria-label="Delete item"
         >
           ✕ Delete
         </button>
@@ -49,8 +66,13 @@ const Cart = () => {
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
   
+  // Function to calculate total amount for entire cart
+  const calculateTotalAmount = () => {
+    return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  };
+
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const totalCost = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalCost = calculateTotalAmount();
 
   if (cartItems.length === 0) {
     return (
