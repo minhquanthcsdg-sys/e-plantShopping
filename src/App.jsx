@@ -1,49 +1,63 @@
-
-import React, { useState } from 'react';
-import ProductList from './ProductList';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './App.css';
-import AboutUs from './AboutUs';
+import AboutUs from './components/AboutUs';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
+
+const Navbar = () => {
+  const cartItems = useSelector(state => state.cart.items);
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  
+  return (
+    <nav className="navbar">
+      <div className="nav-brand">
+        <Link to="/">🌿 Paradise Nursery</Link>
+      </div>
+      <div className="nav-links">
+        <NavLink to="/" end>Home</NavLink>
+        <NavLink to="/products">Plants</NavLink>
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/cart" className="cart-link">
+          🛒 Cart
+          {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+        </NavLink>
+      </div>
+    </nav>
+  );
+};
+
+const Landing = () => {
+  return (
+    <div className="landing">
+      <h1>🌿 Welcome to Paradise Nursery</h1>
+      <p>Bring Nature Indoors</p>
+      <p className="subtitle">
+        Discover our curated collection of house plants that will transform your
+        living space into a green paradise.
+      </p>
+      <Link to="/products" className="btn-primary">
+        🌱 Shop Now
+      </Link>
+    </div>
+  );
+};
 
 function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
-
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
-  };
-
-  const handleHomeClick = () => {
-    setShowProductList(false);
-  };
-
   return (
-    <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-         <div className="landing_content">
-         <h1>Welcome To Paradise Nursery</h1>
-          <div className="divider"></div>
-          <p>Where Green Meets Serenity</p>
-         
-          <button className="get-started-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
-         </div>
-          <div className="aboutus_container">
-          <AboutUs/>
-          </div>
-          </div>
-
+    <Router>
+      <div className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
       </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
-    </div>
+    </Router>
   );
 }
 
 export default App;
-
-
-
